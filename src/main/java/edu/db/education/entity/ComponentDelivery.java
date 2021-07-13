@@ -15,17 +15,17 @@ import java.util.Date;
 public class ComponentDelivery {
     @Id
     @Column(name = "cdid")
-    private Long id;
+    private Long cdid;
 
     @Column(name = "cmpid")
-    private Long componentId;
+    private Long cmpid;
 
     @Column(name = "csid")
-    private Long courseStudentId;
+    private Long csid;
 
     @Column(name = "grade")
     private double grade;
 
     @Column(name = "delivery_time")
-    private Date deliveryTime;
+    private Date delivery_time;
 }

@@ -15,10 +15,10 @@ import java.io.Serializable;
 public class Teacher implements Serializable {
     @Id
     @Column(name = "tchid")
-    private Long id;
+    private Long tchid;
 
     @Column(name = "full_name")
-    private String fullName;
+    private String full_name;
 
     @Column(name = "specialty")
     private String specialty;

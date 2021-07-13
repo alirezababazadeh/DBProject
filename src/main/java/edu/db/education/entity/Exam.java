@@ -15,8 +15,8 @@ public class Exam {
 
     @Id
     @Column(name = "cmpid")
-    private Long componentId;
+    private Long cmpid;
 
     @Column(name = "unit_type")
-    private String unitType;
+    private String unit_type;
 }

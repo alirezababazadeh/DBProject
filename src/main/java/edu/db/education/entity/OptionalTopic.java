@@ -14,5 +14,5 @@ import javax.persistence.*;
 public class OptionalTopic {
     @Id
     @Column(name = "otid")
-    private Long id;
+    private Long otid;
 }

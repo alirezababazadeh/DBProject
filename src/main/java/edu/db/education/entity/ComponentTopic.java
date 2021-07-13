@@ -14,9 +14,12 @@ import java.io.Serializable;
 @Table(name = "component_topic")
 public class ComponentTopic implements Serializable {
     @Id
+    @Column(name = "comtoid")
+    private Long comtoid;
+
     @Column(name = "toid")
-    private Long topicId;
+    private Long toid;
 
     @Column(name = "cmpid")
-    private Long componentId;
+    private Long cmpid;
 }

@@ -15,9 +15,9 @@ public class BasicTopic {
 
     @Id
     @Column(name = "btid")
-    private Long id;
+    private Long btid;
 
     @Column(name = "score_share")
-    private double scoreShare;
+    private double score_share;
 
 }

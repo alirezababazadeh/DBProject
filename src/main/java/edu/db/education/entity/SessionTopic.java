@@ -15,9 +15,9 @@ import java.io.Serializable;
 public class SessionTopic implements Serializable {
     @Id
     @Column(name = "seid")
-    private Long sessionId;
+    private Long seid;
 
     @Column(name = "toid")
-    private Long topicId;
+    private Long toid;
 
 }

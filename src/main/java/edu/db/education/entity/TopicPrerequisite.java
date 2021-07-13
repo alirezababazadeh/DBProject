@@ -16,9 +16,9 @@ public class TopicPrerequisite implements Serializable {
 
     @Id
     @Column(name = "toid")
-    private Long topicId;
+    private Long toid;
 
 
     @Column(name = "pre_toid")
-    private Long preTopicId;
+    private Long pre_toid;
 }

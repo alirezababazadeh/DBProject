@@ -18,21 +18,21 @@ import java.util.Date;
 public class Component {
     @Id
     @Column(name = "cmpid")
-    private Long id;
+    private Long cmpid;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "cgid")
-    private Long courseGroupId;
+    private Long cgid;
 
     @Column(name = "grade")
     private double grade;
 
     @Column(name = "release_date")
-    private Date releaseDate;
+    private Date release_date;
 
     @Column(name = "finish_date")
-    private Date finishDate;
+    private Date finish_date;
 
 }

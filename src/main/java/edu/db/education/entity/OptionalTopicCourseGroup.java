@@ -15,14 +15,14 @@ public class OptionalTopicCourseGroup {
 
     @Id
     @Column(name = "otcgid")
-    private Long id;
+    private Long otcgid;
 
     @Column(name = "cgid")
-    private Long courseGroupId;
+    private Long cgid;
 
     @Column(name = "otid")
-    private Long optionalTopicId;
+    private Long otid;
 
     @Column(name = "score_share")
-    private double scoreShare;
+    private double score_share;
 }

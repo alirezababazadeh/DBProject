@@ -14,12 +14,12 @@ import javax.persistence.*;
 public class Topic {
     @Id
     @Column(name = "toid")
-    private Long id;
+    private Long toid;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "coid")
-    private Long courseId;
+    private Long coid;
 
 }

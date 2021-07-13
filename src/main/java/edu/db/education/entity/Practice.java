@@ -15,15 +15,15 @@ public class Practice {
 
     @Id
     @Column(name = "cmpid")
-    private Long componentId;
+    private Long cmpid;
 
     @Column(name = "ppd")
-    private Long percentPerDay;
+    private Long ppd;
 
     @Column(name = "delay_days")
-    private Long delayDays;
+    private Long delay_days;
 
     @Column(name = "unit_type")
-    private String unitType;
+    private String unit_type;
 
 }
