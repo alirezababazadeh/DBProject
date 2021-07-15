@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "basic_topic")
@@ -15,9 +15,8 @@ public class BasicTopic {
 
     @Id
     @Column(name = "btid")
-    private Long btid;
+    private Long id;
 
     @Column(name = "score_share")
-    private double score_share;
-
+    private double scoreShare;
 }

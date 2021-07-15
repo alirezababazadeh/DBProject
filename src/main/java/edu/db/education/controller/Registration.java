@@ -7,12 +7,10 @@ import lombok.Setter;
 
 import java.util.List;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class Registration {
-
     private List<Teacher> teachers;
     private List<Student> students;
     private List<Course> courses;

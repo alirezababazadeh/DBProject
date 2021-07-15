@@ -2,23 +2,22 @@ package edu.db.education.controller;
 
 import edu.db.education.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
 @RequestMapping("/")
-public class EducationSystemController {
+public class MainController {
 
     @Autowired
     private TeacherRepository teacherRepository;
     @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private StudentRepository studentRepository;
     @Autowired
     private TopicRepository topicRepository;
     @Autowired
@@ -48,8 +47,9 @@ public class EducationSystemController {
     @Autowired
     private PracticeRepository practiceRepository;
 
-    @PostMapping("register")
-    public void register(@RequestBody Registration registration) {
+    @PostMapping
+    @Transactional
+    public void teacher(@RequestBody Registration registration) {
         registration.getTeachers().forEach(teacher -> teacherRepository.save(teacher));
         registration.getStudents().forEach(student -> studentRepository.save(student));
         registration.getCourses().forEach(course -> courseRepository.save(course));
@@ -68,4 +68,5 @@ public class EducationSystemController {
         registration.getExams().forEach(exam -> examRepository.save(exam));
         registration.getPractices().forEach(practice -> practiceRepository.save(practice));
     }
+
 }

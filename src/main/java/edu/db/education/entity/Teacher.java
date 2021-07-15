@@ -5,14 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "teacher")
-public class Teacher implements Serializable {
+public class Teacher {
     @Id
     @Column(name = "tchid")
     private Long tchid;

@@ -5,19 +5,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "session_topic")
-public class SessionTopic implements Serializable {
+public class SessionTopic {
     @Id
+    @Column(name = "st_id")
+    private Long id;
+
     @Column(name = "seid")
     private Long seid;
 
     @Column(name = "toid")
     private Long toid;
 
+    @Override
+    public String toString() {
+        return "SessionTopic{" +
+                "id=" + id +
+                ", sessionId=" + sessionId +
+                ", topicId=" + topicId +
+                '}';
+    }
 }

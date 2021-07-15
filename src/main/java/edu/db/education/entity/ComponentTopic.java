@@ -5,21 +5,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "component_topic")
-public class ComponentTopic implements Serializable {
+public class ComponentTopic {
     @Id
-    @Column(name = "comtoid")
-    private Long comtoid;
+    @Column(name = "ct_id")
+    private Long id;
 
     @Column(name = "toid")
-    private Long toid;
+    private Long topicId;
 
     @Column(name = "cmpid")
-    private Long cmpid;
+    private Long componentId;
 }

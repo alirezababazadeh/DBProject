@@ -6,12 +6,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "topic")
 public class Topic {
+
     @Id
     @Column(name = "toid")
     private Long toid;

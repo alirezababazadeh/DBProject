@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "course_group")
@@ -27,4 +27,5 @@ public class CourseGroup {
 
     @Column(name = "term")
     private Long term;
+
 }

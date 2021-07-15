@@ -5,27 +5,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "component_delivery")
 public class ComponentDelivery {
     @Id
     @Column(name = "cdid")
-    private Long cdid;
+    private Long id;
 
     @Column(name = "cmpid")
-    private Long cmpid;
+    private Long componentId;
 
     @Column(name = "csid")
-    private Long csid;
+    private Long courseStudentId;
 
     @Column(name = "grade")
     private double grade;
 
     @Column(name = "delivery_time")
-    private Date delivery_time;
+    private Timestamp deliveryTime;
 }

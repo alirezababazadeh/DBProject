@@ -1,13 +1,14 @@
 package edu.db.education.entity;
 
+import edu.db.education.type.CourseType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "course")
@@ -22,6 +23,8 @@ public class Course {
     @Column(name = "unit")
     private Long unit;
 
-    @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", length = 11)
+    private CourseType type;
+
 }

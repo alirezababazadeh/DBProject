@@ -1,29 +1,29 @@
 package edu.db.education.entity;
 
+import edu.db.education.type.PracticeType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "practice")
 public class Practice {
-
     @Id
     @Column(name = "cmpid")
-    private Long cmpid;
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unit_type")
+    private PracticeType unitType;
 
     @Column(name = "ppd")
     private Long ppd;
 
     @Column(name = "delay_days")
-    private Long delay_days;
-
-    @Column(name = "unit_type")
-    private String unit_type;
-
+    private Long delayDays;
 }

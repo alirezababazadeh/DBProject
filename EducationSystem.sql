@@ -1,4 +1,7 @@
 -- TABLES
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 CREATE TABLE TEACHER (
 	TCHID BIGINT PRIMARY KEY,
 	FULL_NAME VARCHAR(255) NOT NULL,
@@ -7,16 +10,16 @@ CREATE TABLE TEACHER (
 CREATE TABLE STUDENT (
 	STID BIGINT PRIMARY KEY,
 	FULL_NAME VARCHAR(255) NOT NULL,
-	FEILD VARCHAR(255) NOT NULL
+	FIELD VARCHAR(255) NOT NULL
 );
 CREATE TABLE COURSE (
 	COID BIGINT PRIMARY KEY,
 	NAME VARCHAR(255) NOT NULL,
 	UNIT INT NOT NULL,
-	TYPE VARCHAR(255) NOT NULL
+	TYPE VARCHAR(11) NOT NULL
 );
 CREATE TABLE TOPIC (
-	TOID BIGSERIAL PRIMARY KEY,
+	TOID BIGINT PRIMARY KEY,
 	NAME VARCHAR(255) NOT NULL,
 	COID BIGINT NOT NULL,
 	CONSTRAINT FK_TO_COID
@@ -40,9 +43,10 @@ CREATE TABLE OPTIONAL_TOPIC (
 	  ON DELETE CASCADE
 );
 CREATE TABLE TOPIC_PREREQUISITE (
+    TPID BIGSERIAL PRIMARY KEY,
 	TOID BIGINT NOT NULL,
 	PRE_TOID BIGINT NOT NULL,
-	PRIMARY KEY(TOID, PRE_TOID),
+	UNIQUE (TOID, PRE_TOID),
 	CONSTRAINT FK_TOID
       FOREIGN KEY(TOID)
 	  REFERENCES TOPIC(TOID)
@@ -53,7 +57,7 @@ CREATE TABLE TOPIC_PREREQUISITE (
 	  ON DELETE CASCADE
 );
 CREATE TABLE COURSE_GROUP (
-	CGID BIGSERIAL PRIMARY KEY,
+	CGID BIGINT PRIMARY KEY,
 	TCHID BIGINT NOT NULL,
 	COID BIGINT NOT NULL,
 	YEAR INT NOT NULL,
@@ -69,7 +73,7 @@ CREATE TABLE COURSE_GROUP (
 	  ON DELETE CASCADE
 );
 CREATE TABLE SESSION (
-	SEID BIGSERIAL PRIMARY KEY,
+	SEID BIGINT PRIMARY KEY,
 	TIME VARCHAR(255) NOT NULL,
 	CGID BIGINT NOT NULL,
 	CONSTRAINT FK_SESSION_CGID
@@ -78,9 +82,10 @@ CREATE TABLE SESSION (
 	  ON DELETE CASCADE
 );
 CREATE TABLE SESSION_TOPIC (
+    ST_ID BIGINT PRIMARY KEY,
 	SEID BIGINT NOT NULL,
 	TOID BIGINT NOT NULL,
-	PRIMARY KEY(SEID, TOID),
+	UNIQUE (SEID, TOID),
 	CONSTRAINT FK_ST_SEID
       FOREIGN KEY(SEID)
 	  REFERENCES SESSION(SEID)
@@ -91,7 +96,7 @@ CREATE TABLE SESSION_TOPIC (
 	  ON DELETE CASCADE
 );
 CREATE TABLE OTCG ( -- RELATION OF COURSE_GROUP AND OPTIONAL TOPIC
-	OTCGID BIGSERIAL PRIMARY KEY,
+	OTCGID BIGINT PRIMARY KEY,
 	CGID BIGINT NOT NULL,
 	OTID BIGINT NOT NULL,
 	SCORE_SHARE DECIMAL(3,1) NOT NULL,
@@ -104,7 +109,7 @@ CREATE TABLE OTCG ( -- RELATION OF COURSE_GROUP AND OPTIONAL TOPIC
 	  REFERENCES OPTIONAL_TOPIC(OTID)
 );
 CREATE TABLE COURSE_STUDENT (
-	CSID BIGSERIAL PRIMARY KEY,
+	CSID BIGINT PRIMARY KEY,
 	STID BIGINT NOT NULL,
 	CGID BIGINT NOT NULL,
 	GRADE DECIMAL(3,1) CHECK (GRADE >= 0 AND GRADE <= 20),
@@ -119,7 +124,7 @@ CREATE TABLE COURSE_STUDENT (
 	  ON DELETE CASCADE
 );
 CREATE TABLE COMPONENT (
-	CMPID BIGSERIAL PRIMARY KEY,
+	CMPID BIGINT PRIMARY KEY,
 	TITLE VARCHAR(255) NOT NULL,
 	CGID BIGINT NOT NULL,
 	GRADE DECIMAL(3,1),
@@ -131,7 +136,7 @@ CREATE TABLE COMPONENT (
 	  ON DELETE CASCADE
 );
 CREATE TABLE COMPONENT_DELIVERY (
-	CDID BIGSERIAL PRIMARY KEY,
+	CDID BIGINT PRIMARY KEY,
 	CMPID BIGINT NOT NULL,
 	CSID BIGINT NOT NULL,
 	GRADE DECIMAL(3,1),
@@ -147,9 +152,10 @@ CREATE TABLE COMPONENT_DELIVERY (
 	  ON DELETE CASCADE
 );
 CREATE TABLE COMPONENT_TOPIC (
-    COMTOID BIGSERIAL PRIMARY KEY,
+    CT_ID BIGSERIAL PRIMARY KEY,
 	TOID BIGINT NOT NULL,
 	CMPID BIGINT NOT NULL,
+	UNIQUE (TOID, CMPID),
 	CONSTRAINT FK_CT_TOID
       FOREIGN KEY(TOID)
 	  REFERENCES TOPIC(TOID)
@@ -160,17 +166,17 @@ CREATE TABLE COMPONENT_TOPIC (
 	  ON DELETE CASCADE
 );
 CREATE TABLE EXAM(
-	UNIT_TYPE VARCHAR(255) NOT NULL,
 	CMPID BIGINT PRIMARY KEY,
+	UNIT_TYPE VARCHAR(7) NOT NULL,
 	CONSTRAINT FK_EXAM_CMPID
       FOREIGN KEY(CMPID)
 	  REFERENCES COMPONENT(CMPID)
 	  ON DELETE CASCADE
 );
 CREATE TABLE PRACTICE(
-	UNIT_TYPE VARCHAR(255) NOT NULL,
-	CMPID BIGINT PRIMARY KEY,
-	PPD INT CHECK (PPD < 100 AND PPD > 0),
+    CMPID BIGINT PRIMARY KEY,
+	UNIT_TYPE VARCHAR(8) NOT NULL,
+	PPD INT CHECK (PPD < 100 AND PPD > 0), -- percent per day
 	DELAY_DAYS INT,
 	CONSTRAINT FK_PRACTICE_CMPID
       FOREIGN KEY(CMPID)
@@ -253,14 +259,14 @@ CREATE VIEW TEACHER_COMPONENTS_AVERAGE AS
 create or replace function student_grade_func() returns trigger language plpgsql
     as $$
     begin
-        if tg_op == 'INSERT' or tg_op == 'UPDATE'then
+        if tg_op = 'INSERT' or tg_op = 'UPDATE'then
             if (select sum(grade) from component_delivery where csid = new.csid) > 20 then
                 update course_student set grade = 20 where course_student.csid = new.csid;
             else
                 update course_student set grade = (select sum(grade) from component_delivery where csid = new.csid)
                 where course_student.csid = new.csid;
             end if;
-        elsif tg_op == 'DELETE' then
+        elsif tg_op = 'DELETE' then
             if (select sum(grade) from component_delivery where csid = old.csid) > 20 then
                 update course_student set grade = 20 where course_student.csid = old.csid;
             else
@@ -268,6 +274,7 @@ create or replace function student_grade_func() returns trigger language plpgsql
                 where course_student.csid = old.csid;
             end if;
         end if;
+		return new;
     end;
     $$;
 
@@ -280,12 +287,13 @@ create trigger student_grade
 create or replace function cg_optimal_topic_func() returns trigger language plpgsql
     as $$
     begin
-        if tg_op == 'INSERT' or tg_op == 'UPDATE' then
+        if tg_op = 'INSERT' or tg_op = 'UPDATE' then
             if new.otid not in (select toid from topic where coid = (
                 select coid from course_group where course_group.cgid = new.cgid)) then
                 raise exception 'This topic is not valid for this course';
             end if;
         end if;
+		return new;
     end;
     $$;
 
@@ -299,13 +307,14 @@ create trigger cg_optimal_topic
 create or replace function comp_topic_func() returns trigger language plpgsql
     as $$
     begin
-        if tg_op == 'INSERT' or tg_op == 'UPDATE' then
-            if new.toid not in ((select toid from topic where coid = (select coid from course_group where
-                cgid = (select cgid from component where component.cmpid = new.cmpid))) intersect (select toid from basic_topic)) and
+        if tg_op = 'INSERT' or tg_op = 'UPDATE' then
+            if new.toid not in (select toid from topic where coid = (select coid from course_group where
+         			cgid = (select cgid from component where component.cmpid = 1) intersect (select btid from basic_topic))) and
                new.toid not in (select otid from otcg where cgid = (select cgid from component where component.cmpid = new.cmpid)) then
                 raise exception 'This topic is not valid for this component';
             end if;
         end if;
+		return new;
     end;
     $$;
 
@@ -319,12 +328,13 @@ create trigger comp_topic
 create or replace function comp_delivery_func() returns trigger language plpgsql
     as $$
     begin
-        if tg_op == 'INSERT' or tg_op == 'UPDATE' then
+        if tg_op = 'INSERT' or tg_op = 'UPDATE' then
             if (select cgid from component where component.cmpid = new.cmpid) <>
                (select cgid from course_student where course_student.csid = new.csid) then
                 raise exception 'This delivery_component dose not match with course component';
             end if;
         end if;
+		return new;
     end;
     $$;
 
@@ -338,15 +348,16 @@ create trigger comp_delivery
 create or replace function se_topic_func() returns trigger language plpgsql
     as $$
     begin
-        if tg_op == 'INSERT' or tg_op == 'UPDATE' then
+        if tg_op = 'INSERT' or tg_op = 'UPDATE' then
             if new.toid not in (select toid from topic where
                                      coid = (select coid from course_group where
                                          cgid = (select cgid from session where
-                                            session.seid = new.seid)) intersect (select toid from basic_topic)) and
+                                            session.seid = new.seid)) intersect (select btid from basic_topic)) and
                new.toid not in (select otid from otcg inner join session s on otcg.cgid = s.cgid where s.seid = new.seid) then
                 raise exception 'Topic of this session dose not match with course topics';
             end if;
         end if;
+        return new;
     end;
     $$;
 
@@ -354,5 +365,5 @@ create trigger se_topic
     before insert or update on session_topic
     for each row
     execute procedure se_topic_func();
-    
-    
+
+

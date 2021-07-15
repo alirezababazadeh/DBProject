@@ -6,23 +6,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "otcg")
 public class OptionalTopicCourseGroup {
-
     @Id
     @Column(name = "otcgid")
-    private Long otcgid;
+    private Long id;
 
     @Column(name = "cgid")
-    private Long cgid;
+    private Long courseGroupId;
 
     @Column(name = "otid")
-    private Long otid;
+    private Long optionalTopicId;
 
     @Column(name = "score_share")
-    private double score_share;
+    private double scoreShare;
+
 }
