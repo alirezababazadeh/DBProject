@@ -14,10 +14,10 @@ import javax.persistence.*;
 public class Student {
     @Id
     @Column(name = "stid")
-    private Long stid;
+    private Long id;
 
     @Column(name = "full_name")
-    private String full_name;
+    private String fullName;
 
     @Column(name = "field")
     private String field;

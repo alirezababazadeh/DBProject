@@ -14,13 +14,13 @@ import javax.persistence.*;
 public class CourseGroup {
     @Id
     @Column(name = "cgid")
-    private Long cgid;
+    private Long id;
 
     @Column(name = "tchid")
-    private Long tchid;
+    private Long teacherId;
 
     @Column(name = "coid")
-    private Long coid;
+    private Long courseId;
 
     @Column(name = "year")
     private Long year;

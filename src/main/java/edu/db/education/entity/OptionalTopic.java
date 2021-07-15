@@ -15,5 +15,5 @@ public class OptionalTopic {
 
     @Id
     @Column(name = "otid")
-    private Long otid;
+    private Long id;
 }

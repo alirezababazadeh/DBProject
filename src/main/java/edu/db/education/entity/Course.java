@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Course {
     @Id
     @Column(name = "coid")
-    private Long coid;
+    private Long id;
 
     @Column(name = "name")
     private String name;

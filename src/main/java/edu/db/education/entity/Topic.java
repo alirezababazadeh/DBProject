@@ -15,12 +15,12 @@ public class Topic {
 
     @Id
     @Column(name = "toid")
-    private Long toid;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "coid")
-    private Long coid;
+    private Long courseId;
 
 }

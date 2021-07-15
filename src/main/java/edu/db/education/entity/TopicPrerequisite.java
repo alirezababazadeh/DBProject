@@ -18,8 +18,8 @@ public class TopicPrerequisite {
     private Long id;
 
     @Column(name = "toid")
-    private Long toid;
+    private Long topicId;
 
     @Column(name = "pre_toid")
-    private Long pre_toid;
+    private Long preTopicId;
 }

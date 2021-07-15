@@ -17,10 +17,10 @@ public class SessionTopic {
     private Long id;
 
     @Column(name = "seid")
-    private Long seid;
+    private Long sessionId;
 
     @Column(name = "toid")
-    private Long toid;
+    private Long topicId;
 
     @Override
     public String toString() {

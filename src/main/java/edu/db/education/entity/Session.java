@@ -14,12 +14,12 @@ import javax.persistence.*;
 public class Session {
     @Id
     @Column(name = "seid")
-    private Long seid;
+    private Long id;
 
     @Column(name = "time")
     private String time;
 
     @Column(name = "cgid")
-    private Long cgid;
+    private Long courseGroupId;
 
 }
