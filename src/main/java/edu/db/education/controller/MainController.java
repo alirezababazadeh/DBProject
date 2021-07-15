@@ -49,7 +49,7 @@ public class MainController {
 
     @PostMapping
     @Transactional
-    public void teacher(@RequestBody Registration registration) {
+    public void register(@RequestBody Registration registration) {
         registration.getTeachers().forEach(teacher -> teacherRepository.save(teacher));
         registration.getStudents().forEach(student -> studentRepository.save(student));
         registration.getCourses().forEach(course -> courseRepository.save(course));
