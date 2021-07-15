@@ -1,12 +1,13 @@
 package edu.db.education.controller;
 
+import edu.db.education.entity.Student;
+import edu.db.education.entity.Teacher;
 import edu.db.education.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -67,6 +68,26 @@ public class MainController {
         registration.getComponentTopics().forEach(componentTopic -> componentTopicRepository.save(componentTopic));
         registration.getExams().forEach(exam -> examRepository.save(exam));
         registration.getPractices().forEach(practice -> practiceRepository.save(practice));
+    }
+
+    @GetMapping("/teachers")
+    public List<Teacher> getTeachers() {
+        return teacherRepository.findAll();
+    }
+
+    @GetMapping("/teachers/{id}")
+    public Teacher getTeacherByID(@PathVariable(value = "id") Long id) {
+        return teacherRepository.findById(id).get();
+    }
+
+    @GetMapping("/students")
+    public List<Student> getStudents() {
+        return studentRepository.findAll();
+    }
+
+    @GetMapping("/students/{id}")
+    public Student getStudentsByID(@PathVariable(value = "id") Long id) {
+        return studentRepository.findById(id).get();
     }
 
 }
