@@ -2,7 +2,11 @@ package edu.db.education.controller;
 
 import edu.db.education.entity.Student;
 import edu.db.education.entity.Teacher;
+import edu.db.education.entity.view.StudentComponents;
+import edu.db.education.entity.view.StudentCourses;
+import edu.db.education.entity.view.TeacherComponentsAverage;
 import edu.db.education.repository.*;
+import edu.db.education.repository.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +52,17 @@ public class MainController {
     @Autowired
     private PracticeRepository practiceRepository;
 
+    @Autowired
+    private StudentComponentsRepository studentComponentsRepository;
+    @Autowired
+    private StudentCoursesRepository studentCoursesRepository;
+    @Autowired
+    private StudentTermsAverageRepository studentTermsAverageRepository;
+    @Autowired
+    private TeacherComponentsAverageRepository teacherComponentsAverageRepository;
+    @Autowired
+    private TeacherCoursesAverageRepository teacherCoursesAverageRepository;
+
     @PostMapping
     @Transactional
     public void register(@RequestBody Registration registration) {
@@ -90,4 +105,33 @@ public class MainController {
         return studentRepository.findById(id).get();
     }
 
+    @GetMapping("/teacher-components")
+    public List<TeacherComponentsAverage> getTeacherComponentsAverage() {
+        return teacherComponentsAverageRepository.findAll();
+    }
+
+    @GetMapping("/teachers-components/{id}")
+    public TeacherComponentsAverage getTeacherComponentAverageByID(@PathVariable(value = "id") Long id) {
+        return teacherComponentsAverageRepository.findById(id).get();
+    }
+
+    @GetMapping("/students-components")
+    public List<StudentComponents> getStudentComponents() {
+        return studentComponentsRepository.findAll();
+    }
+
+    @GetMapping("/students-components/{id}")
+    public StudentComponents getStudentComponentById(@PathVariable(value = "id") Long id) {
+        return studentComponentsRepository.findById(id).get();
+    }
+
+    @GetMapping("/students-courses")
+    public List<StudentCourses> getStudentCourses() {
+        return studentCoursesRepository.findAll();
+    }
+
+    @GetMapping("/students-courses/{id}")
+    public StudentCourses getStudentCourseByID(@PathVariable(value = "id") Long id) {
+        return studentCoursesRepository.findById(id).get();
+    }
 }
