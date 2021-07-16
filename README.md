@@ -6,3 +6,5 @@ do following approaches to setup project:
 * use **EducationSystem.sql** file to setup tabels, views and triggers
 * import **DB Project.postman_collection.json** file to postman to see request examples.
 * use **RegisterInSystem** request to add dumy datas.
+
+**git repository** : https://github.com/alirezababazadeh/DBProject
